@@ -13,23 +13,28 @@ const filesToCache = [
 
 // Cache on install
 self.addEventListener("install", (event) => {
-  this.skipWaiting();
   event.waitUntil(
-    caches.open(staticCacheName).then((cache) => cache.addAll(filesToCache))
+    caches
+      .open(staticCacheName)
+      .then((cache) => cache.addAll(filesToCache))
+      .then(() => self.skipWaiting())
   );
 });
 
 // Clear cache on activate
 self.addEventListener("activate", (event) => {
   event.waitUntil(
-    caches.keys().then((cacheNames) => (
-      Promise.all(
-        cacheNames
-          .filter((cacheName) => cacheName.startsWith('pwa-version-'))
-          .filter((cacheName) => cacheName !== staticCacheName)
-          .map((cacheName) => caches.delete(cacheName))
-      )
-    ))
+    caches
+      .keys()
+      .then((cacheNames) => (
+        Promise.all(
+          cacheNames
+            .filter((cacheName) => cacheName.startsWith('pwa-version-'))
+            .filter((cacheName) => cacheName !== staticCacheName)
+            .map((cacheName) => caches.delete(cacheName))
+        )
+      ))
+      .then(() => self.clients.claim())
   );
 });
 
@@ -39,6 +44,7 @@ self.addEventListener("fetch", (event) => {
     caches
       .match(event.request)
       .then((response) => response || fetch(event.request))
+      .catch(() => caches.match('/index.html'))
   );
 });
 
