@@ -1,5 +1,5 @@
 const button = document.querySelector('#button-start');
-const audio = new Audio('./../assets/audio/beep.mp3');
+const audio = new Audio('./../assets/audio/cardinal.mp3');
 
 button.addEventListener('click', () => {
   button.disabled = true;
@@ -7,7 +7,7 @@ button.addEventListener('click', () => {
   audio.volume = 0.05;
   const initAlarm = () => {
     audio.play();
-    setTimeout(() => (audio.pause()), 1000);
+    setTimeout(() => (audio.pause()), 1500);
   };
 
   const oneSecond = 1000;
