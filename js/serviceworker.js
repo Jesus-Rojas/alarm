@@ -6,7 +6,7 @@ const filesToCache = [
   "/assets/icons/favicon-96x96.png",
   "/assets/icons/favicon-128x128.png",
   "/assets/icons/favicon-196x196.png",
-  "/css/syles.css",
+  "/css/styles.css",
   "/js/main.js",
   "/index.html",
 ];
@@ -41,3 +41,9 @@ self.addEventListener("fetch", (event) => {
       .then((response) => response || fetch(event.request))
   );
 });
+
+// Sync
+self.addEventListener('sync', console.log);
+
+// Push notifications
+self.addEventListener('push', console.log);
