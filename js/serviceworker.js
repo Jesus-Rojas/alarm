@@ -8,6 +8,7 @@ const filesToCache = [
   "/assets/icons/favicon-196x196.png",
   "/css/syles.css",
   "/js/main.js",
+  "/index.html",
 ];
 
 // Cache on install
