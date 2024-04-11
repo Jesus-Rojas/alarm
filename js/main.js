@@ -10,5 +10,9 @@ button.addEventListener('click', () => {
     setTimeout(() => (audio.pause()), 1000);
   };
 
-  setInterval(initAlarm, ((1000 * 3)));
+  const oneSecond = 1000;
+  const seconds = 60;
+  const minutes = 60;
+  const timer = ((oneSecond * seconds) * minutes);
+  setInterval(initAlarm, timer);
 });
