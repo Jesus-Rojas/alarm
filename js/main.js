@@ -14,5 +14,6 @@ button.addEventListener('click', () => {
   const seconds = 60;
   const minutes = 60;
   const timer = ((oneSecond * seconds) * minutes);
+  initAlarm();
   setInterval(initAlarm, timer);
 });
