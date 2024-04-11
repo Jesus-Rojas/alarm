@@ -1,19 +1,25 @@
 const button = document.querySelector('#button-start');
 const audio = new Audio('./../assets/audio/cardinal.mp3');
+audio.loop = false;
+audio.volume = 0.05;
+
+const runAlarm = () => {
+  audio.currentTime = 0;
+  audio.play();
+  setTimeout(() => (audio.pause()), 1500);
+};
 
 button.addEventListener('click', () => {
   button.disabled = true;
-  audio.loop = false;
-  audio.volume = 0.05;
-  const initAlarm = () => {
-    audio.play();
-    setTimeout(() => (audio.pause()), 1500);
-  };
-
-  const oneSecond = 1000;
   const seconds = 60;
-  const minutes = 60;
-  const timer = ((oneSecond * seconds) * minutes);
-  initAlarm();
-  setInterval(initAlarm, timer);
+  const defaultMinutes = 60;
+  let minutes = prompt('Ingrese el intervalo de minutos', defaultMinutes);
+  minutes = isNaN(minutes) ? defaultMinutes : +minutes;
+  minutes = minutes > 0 ? minutes : defaultMinutes;
+  runAlarm();
+  setInterval(runAlarm, ((1000 * seconds) * minutes));
 });
+
+if (navigator.serviceWorker) {
+  navigator.serviceWorker.register('/js/serviceworker.js');
+};

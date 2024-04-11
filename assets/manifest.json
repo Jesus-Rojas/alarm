@@ -1,15 +1,10 @@
 {
-	"name": "Alarm",
+	"name": "Alarm PWA",
 	"short_name": "Alarm",
 	"start_url": "/",
 	"display": "standalone",
 	"icons": [
-    {
-			"src": "/assets/icons/favicon-128.png",
-			"type": "image/png",
-			"sizes": "128x128"
-		},
-    {
+		{
 			"src": "/assets/icons/favicon-16x16.png",
 			"type": "image/png",
 			"sizes": "16x16"
@@ -23,6 +18,11 @@
 			"src": "/assets/icons/favicon-96x96.png",
 			"type": "image/png",
 			"sizes": "96x96"
+		},
+		{
+			"src": "/assets/icons/favicon-128x128.png",
+			"type": "image/png",
+			"sizes": "128x128"
 		},
     {
 			"src": "/assets/icons/favicon-196x196.png",
