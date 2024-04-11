@@ -1,6 +1,6 @@
 {
-	"name": "CBP One",
-	"short_name": "CBP One",
+	"name": "Alarm",
+	"short_name": "Alarm",
 	"start_url": "/",
 	"display": "standalone",
 	"icons": [
