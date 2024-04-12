@@ -1,16 +1,15 @@
 const staticCacheName = 'pwa-version-' + Date.now();
 const filesToCache = [
+  '/index.html',
+  '/favicon.ico',
+  '/js/main.js',
+  '/css/styles.css',
   '/assets/audio/cardinal.mp3',
   '/assets/icons/favicon-16x16.png',
   '/assets/icons/favicon-32x32.png',
   '/assets/icons/favicon-96x96.png',
   '/assets/icons/favicon-128x128.png',
   '/assets/icons/favicon-196x196.png',
-  '/assets/manifest.json',
-  '/css/styles.css',
-  '/js/main.js',
-  '/index.html',
-  '/favicon.ico',
 ];
 
 self.addEventListener("install", (event) => {
