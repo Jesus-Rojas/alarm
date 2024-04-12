@@ -6,9 +6,12 @@ const filesToCache = [
   '/assets/icons/favicon-96x96.png',
   '/assets/icons/favicon-128x128.png',
   '/assets/icons/favicon-196x196.png',
+  '/assets/manifest.json',
   '/css/styles.css',
   '/js/main.js',
   '/index.html',
+  '/favicon.ico',
+  '/',
 ];
 
 // Cache on install
