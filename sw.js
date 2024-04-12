@@ -11,7 +11,6 @@ const filesToCache = [
   '/js/main.js',
   '/index.html',
   '/favicon.ico',
-  '/',
 ];
 
 // Cache on install
@@ -46,7 +45,7 @@ self.addEventListener("fetch", (event) => {
       .match(event.request)
       .then((response) => response || fetch(event.request))
       .catch((error) => {
-        if (filesToCache.includes(new URL(event.request.url).pathname)) {
+        if ('/' === new URL(event.request.url).pathname) {
           return caches.match('/index.html');
         }
         throw error;
