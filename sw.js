@@ -18,23 +18,19 @@ self.addEventListener("install", (event) => {
     caches
       .open(staticCacheName)
       .then((cache) => cache.addAll(filesToCache))
-      .finally(() => self.skipWaiting())
   );
 });
 
 self.addEventListener("activate", (event) => {
   event.waitUntil(
-    (async() => {
-      const cacheNames = await caches.keys();
-      const oldCaches = cacheNames.filter((cacheName) => (
-        cacheName.startsWith('pwa-version-') && cacheName !== staticCacheName
-      ));
-      await Promise.all(oldCaches.map((cacheName) => caches.delete(cacheName)));
-      await clients.claim();
-      if (oldCaches.length === 0) return;
-      const pages = await clients.matchAll();
-      pages.forEach((page) => page.postMessage({ type: 'NEW_VERSION_AVAILABLE' }));
-    })()
+    caches
+      .keys()
+      .then((cacheNames) => {
+        const oldCaches = cacheNames.filter((cacheName) => (
+          cacheName.startsWith('pwa-version-') && cacheName !== staticCacheName
+        ));
+        return Promise.all(oldCaches.map((cacheName) => caches.delete(cacheName)))
+      })
   );
 });
 
@@ -50,4 +46,8 @@ self.addEventListener("fetch", (event) => {
         throw error;
       })
   );
+});
+
+self.addEventListener('message', event => {
+  if (event.data && event.data.type === 'NEW_VERSION_AVAILABLE') self.skipWaiting();
 });

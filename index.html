@@ -12,15 +12,33 @@
   <button id="button-start">Iniciar alarma</button>
 
   <script>
-    if (navigator.serviceWorker) {
+    (() => {
+      if (!navigator.serviceWorker) return;
+
+      const showUpdateAvailable = (sw) => {
+        const message = "A new version is available. Do you want to reload to update?";
+        if (!confirm(message)) return;
+        sw.postMessage({ type: 'NEW_VERSION_AVAILABLE' });
+        window.location.reload();
+      }
+      
+      navigator
+        .serviceWorker
+        .getRegistration()
+        .then((registration) => {
+          if (!registration) return;
+          if (registration.waiting) showUpdateAvailable(registration.waiting);
+          registration.addEventListener('updatefound', () => {
+            const newWorker = registration.installing;
+            newWorker.addEventListener('statechange', () => {
+              if (!(newWorker.state === 'installed' && navigator.serviceWorker.controller)) return;
+              showUpdateAvailable(newWorker);
+            });
+          });
+        });
+
       navigator.serviceWorker.register('sw.js');
-      navigator.serviceWorker.addEventListener('message', (event) => {
-        if (event.data && event.data.type === 'NEW_VERSION_AVAILABLE') {
-          const message = "A new version is available. Do you want to reload to update?";
-          if (confirm(message)) window.location.reload();
-        }
-      });
-    }
+    })();
   </script>
   
   <script src="./js/main.js"></script>
