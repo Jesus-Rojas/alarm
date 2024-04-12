@@ -12,7 +12,15 @@
   <button id="button-start">Iniciar alarma</button>
 
   <script>
-    if (navigator.serviceWorker) navigator.serviceWorker.register('sw.js');
+    if (navigator.serviceWorker) {
+      navigator.serviceWorker.register('sw.js');
+      navigator.serviceWorker.addEventListener('message', (event) => {
+        if (event.data && event.data.type === 'NEW_VERSION_AVAILABLE') {
+          const message = "A new version is available. Do you want to reload to update?";
+          if (confirm(message)) window.location.reload();
+        }
+      });
+    }
   </script>
   
   <script src="./js/main.js"></script>

@@ -1,4 +1,4 @@
-const staticCacheName = `pwa-version-${new Date().getTime()}`;
+const staticCacheName = 'pwa-version-' + Date.now();
 const filesToCache = [
   '/assets/audio/cardinal.mp3',
   '/assets/icons/favicon-16x16.png',
@@ -13,32 +13,31 @@ const filesToCache = [
   '/favicon.ico',
 ];
 
-// Cache on install
 self.addEventListener("install", (event) => {
   event.waitUntil(
     caches
       .open(staticCacheName)
       .then((cache) => cache.addAll(filesToCache))
+      .finally(() => self.skipWaiting())
   );
 });
 
-// Clear cache on activate
 self.addEventListener("activate", (event) => {
   event.waitUntil(
-    caches
-      .keys()
-      .then((cacheNames) => (
-        Promise.all(
-          cacheNames
-            .filter((cacheName) => cacheName.startsWith('pwa-version-'))
-            .filter((cacheName) => cacheName !== staticCacheName)
-            .map((cacheName) => caches.delete(cacheName))
-        )
-      ))
+    (async() => {
+      const cacheNames = await caches.keys();
+      const oldCaches = cacheNames.filter((cacheName) => (
+        cacheName.startsWith('pwa-version-') && cacheName !== staticCacheName
+      ));
+      await Promise.all(oldCaches.map((cacheName) => caches.delete(cacheName)));
+      await clients.claim();
+      if (oldCaches.length === 0) return;
+      const pages = await clients.matchAll();
+      pages.forEach((page) => page.postMessage({ type: 'NEW_VERSION_AVAILABLE' }));
+    })()
   );
 });
 
-// Serve from Cache
 self.addEventListener("fetch", (event) => {
   event.respondWith(
     caches
