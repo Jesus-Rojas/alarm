@@ -42,5 +42,11 @@ self.addEventListener("fetch", (event) => {
     caches
       .match(event.request)
       .then((response) => response || fetch(event.request))
+      .catch((error) => {
+        if (filesToCache.includes(new URL(event.request.url).pathname)) {
+          return caches.match('/index.html');
+        }
+        throw error;
+      })
   );
 });
