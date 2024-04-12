@@ -19,7 +19,3 @@ button.addEventListener('click', () => {
   runAlarm();
   setInterval(runAlarm, ((1000 * seconds) * minutes));
 });
-
-if (navigator.serviceWorker) {
-  navigator.serviceWorker.register('/js/serviceworker.js');
-};
